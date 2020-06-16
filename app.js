@@ -17,6 +17,7 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 
 var cors = require('cors');
+
 app.use(cors());
 //Body Parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
