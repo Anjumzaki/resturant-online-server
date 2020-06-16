@@ -102,7 +102,7 @@ app.post("/add/restaurent", async (req, res) => {
 //get inviteCode
 app.get("/get/inviteCode/:code", (req, res) => {
   if (req.params.code == "123456") {
-    res.json(code);
+    res.json(req.params.code);
   } else {
     res.status(404).json(err);
   }
