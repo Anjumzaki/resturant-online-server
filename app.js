@@ -106,11 +106,6 @@ app.get("/get/inviteCode/:code", (req, res) => {
   } else {
     res.status(404).json(err);
   }
-  // InviteCode.findOne({inviteCode: req.params.code})
-  // .then(cod => {
-  //   res.json(cod);
-  // })
-  // .catch(err => res.status(404).json(err));
 });
 
 //get all stores
