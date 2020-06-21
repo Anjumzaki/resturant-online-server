@@ -99,6 +99,34 @@ app.post("/add/restaurent", async (req, res) => {
   });
 });
 
+app.put("/edit/restaurant/:id", async (req, res) => {
+  console.log("m", req.body)
+  Restaurent.updateOne({ _id:  req.params.id}, {
+    $set: {
+      name:  req.body.name,
+      category: req.body.category,
+      phoneNumber: req.body.phoneNumber,
+      stempPrice: req.body.stempPrice,
+      inviteCode: req.body.inviteCode,
+      description: req.body.description,
+      address: req.body.address,
+      userId: req.body.userId,
+      lat: req.body.lat,
+      lng: req.body.lng
+    }
+  }, { upsert: true }, function (err, user) {
+    if(err){
+      res.status(400).send()
+    }else{
+      res.status(200).send({
+        success: 'true',
+        message: 'restaurant updated'
+      })
+    }
+   
+  });
+});
+
 //get inviteCode
 app.get("/get/inviteCode/:code", (req, res) => {
   if (req.params.code == "123456") {
@@ -126,6 +154,13 @@ app.get("/get/restaurent/:id", (req, res) => {
     .catch((err) => res.status(404).json(err));
 });
 
+app.get("/get/user/:id", (req, res) => {
+  User.findOne({ _id: req.params.id })
+    .then((restaurent) => {
+      res.json(restaurent);
+    })
+    .catch((err) => res.status(404).json(err));
+});
 //edit store by id
 app.put("/edit/user/:id/:count", async (req, res) => {
   console.log("m", req.params);
