@@ -159,6 +159,13 @@ app.get("/get/restaurent/:id", (req, res) => {
     .catch((err) => res.status(404).json(err));
 });
 
+app.get("/get/user/:id", (req, res) => {
+  User.findOne({ _id: req.params.id })
+    .then((restaurent) => {
+      res.json(restaurent);
+    })
+    .catch((err) => res.status(404).json(err));
+});
 //edit store by id
 app.put("/edit/user/:id/:count", async (req, res) => {
   console.log("m", req.params);
