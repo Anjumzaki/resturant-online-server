@@ -127,6 +127,28 @@ app.put("/edit/restaurant/:id", async (req, res) => {
   });
 });
 
+
+app.put("/edit/user/:id", async (req, res) => {
+  console.log("m", req.body)
+  User.updateOne({ _id:  req.params.id}, {
+    $set: {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName, 
+      email: req.body.email,
+      mobile: req.body.mobile,
+    }
+  }, { upsert: true }, function (err, user) {
+    if(err){
+      res.status(400).send()
+    }else{
+      res.status(200).send({
+        success: 'true',
+        message: 'user updated'
+      })
+    }
+   
+  });
+});
 //get inviteCode
 app.get("/get/inviteCode/:code", (req, res) => {
   if (req.params.code == "123456") {
