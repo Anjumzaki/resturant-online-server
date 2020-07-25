@@ -100,62 +100,69 @@ app.post("/add/restaurent", async (req, res) => {
 });
 
 app.put("/edit/restaurant/:id", async (req, res) => {
-  console.log("m", req.body)
-  Restaurent.updateOne({ _id:  req.params.id}, {
-    $set: {
-      name:  req.body.name,
-      category: req.body.category,
-      phoneNumber: req.body.phoneNumber,
-      stempPrice: req.body.stempPrice,
-      inviteCode: req.body.inviteCode,
-      description: req.body.description,
-      address: req.body.address,
-      userId: req.body.userId,
-      lat: req.body.lat,
-      lng: req.body.lng
+  console.log("m", req.body);
+  Restaurent.updateOne(
+    { _id: req.params.id },
+    {
+      $set: {
+        name: req.body.name,
+        category: req.body.category,
+        phoneNumber: req.body.phoneNumber,
+        stempPrice: req.body.stempPrice,
+        inviteCode: req.body.inviteCode,
+        description: req.body.description,
+        address: req.body.address,
+        userId: req.body.userId,
+        lat: req.body.lat,
+        lng: req.body.lng,
+      },
+    },
+    { upsert: true },
+    function (err, user) {
+      if (err) {
+        res.status(400).send();
+      } else {
+        res.status(200).send({
+          success: "true",
+          message: "restaurant updated",
+        });
+      }
     }
-  }, { upsert: true }, function (err, user) {
-    if(err){
-      res.status(400).send()
-    }else{
-      res.status(200).send({
-        success: 'true',
-        message: 'restaurant updated'
-      })
-    }
-   
-  });
+  );
 });
 
-
 app.put("/edit/user/:id", async (req, res) => {
-  console.log("m", req.body)
-  User.updateOne({ _id:  req.params.id}, {
-    $set: {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName, 
-      email: req.body.email,
-      mobile: req.body.mobile,
+  console.log("m", req.body);
+  User.updateOne(
+    { _id: req.params.id },
+    {
+      $set: {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        mobile: req.body.mobile,
+      },
+    },
+    { upsert: true },
+    function (err, user) {
+      if (err) {
+        res.status(400).send();
+      } else {
+        res.status(200).send({
+          success: "true",
+          message: "user updated",
+        });
+      }
     }
-  }, { upsert: true }, function (err, user) {
-    if(err){
-      res.status(400).send()
-    }else{
-      res.status(200).send({
-        success: 'true',
-        message: 'user updated'
-      })
-    }
-   
-  });
+  );
 });
 //get inviteCode
 app.get("/get/inviteCode/:code", (req, res) => {
-  if (req.params.code == "123456") {
-    res.json(req.params.code);
-  } else {
-    res.status(404).json(err);
-  }
+  InviteCode.findOne({ inviteCode: req.params.code })
+    .then((cod) => {
+      res.json(cod);
+    })
+    .catch((err) => res.status(404).json(err));
 });
 
 //get all stores
